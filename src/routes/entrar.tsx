@@ -37,14 +37,15 @@ const credentialsSchema = z.object({
 function AuthPage() {
   const { modo } = Route.useSearch();
   const navigate = useNavigate();
-  const [mode, setMode] = useState(modo);
+  type Mode = "entrar" | "cadastro" | "recuperar";
+  const [mode, setMode] = useState<Mode>((modo as Mode) ?? "entrar");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState<null | "confirmacao" | "recuperacao">(null);
 
-  useEffect(() => setMode(modo), [modo]);
+  useEffect(() => setMode((modo as Mode) ?? "entrar"), [modo]);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
