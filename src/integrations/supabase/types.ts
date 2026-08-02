@@ -14,7 +14,120 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      company_profiles: {
+        Row: {
+          audience: string
+          city: string
+          created_at: string
+          differentials: string
+          id: string
+          name: string
+          products: string
+          segment: string
+          tone: string
+          updated_at: string
+          user_id: string
+          whatsapp: string
+        }
+        Insert: {
+          audience?: string
+          city?: string
+          created_at?: string
+          differentials?: string
+          id?: string
+          name?: string
+          products?: string
+          segment?: string
+          tone?: string
+          updated_at?: string
+          user_id: string
+          whatsapp?: string
+        }
+        Update: {
+          audience?: string
+          city?: string
+          created_at?: string
+          differentials?: string
+          id?: string
+          name?: string
+          products?: string
+          segment?: string
+          tone?: string
+          updated_at?: string
+          user_id?: string
+          whatsapp?: string
+        }
+        Relationships: []
+      }
+      generations: {
+        Row: {
+          ai_response: string
+          created_at: string
+          final_prompt: string
+          id: string
+          kind: string
+          missing_info: Json
+          questions: Json
+          score: number
+          user_id: string
+          user_input: string
+        }
+        Insert: {
+          ai_response?: string
+          created_at?: string
+          final_prompt?: string
+          id?: string
+          kind: string
+          missing_info?: Json
+          questions?: Json
+          score?: number
+          user_id: string
+          user_input: string
+        }
+        Update: {
+          ai_response?: string
+          created_at?: string
+          final_prompt?: string
+          id?: string
+          kind?: string
+          missing_info?: Json
+          questions?: Json
+          score?: number
+          user_id?: string
+          user_input?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string | null
+          generations_used: number
+          id: string
+          period_start: string
+          plan: Database["public"]["Enums"]["plan_type"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string | null
+          generations_used?: number
+          id: string
+          period_start?: string
+          plan?: Database["public"]["Enums"]["plan_type"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          full_name?: string | null
+          generations_used?: number
+          id?: string
+          period_start?: string
+          plan?: Database["public"]["Enums"]["plan_type"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +136,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      plan_type: "gratuito" | "profissional"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +263,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      plan_type: ["gratuito", "profissional"],
+    },
   },
 } as const
