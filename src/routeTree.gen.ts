@@ -14,7 +14,10 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as EntrarRouteImport } from './routes/entrar'
 import { Route as PlanosRouteImport } from './routes/planos'
 import { Route as RedefinirSenhaRouteImport } from './routes/redefinir-senha'
+import { Route as AuthenticatedEmpresaRouteImport } from './routes/_authenticated/empresa'
+import { Route as AuthenticatedHistoricoRouteImport } from './routes/_authenticated/historico'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
+import { Route as AuthenticatedGerarKindRouteImport } from './routes/_authenticated/gerar.$kind'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,9 +43,24 @@ const RedefinirSenhaRoute = RedefinirSenhaRouteImport.update({
   path: '/redefinir-senha',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedEmpresaRoute = AuthenticatedEmpresaRouteImport.update({
+  id: '/empresa',
+  path: '/empresa',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedHistoricoRoute = AuthenticatedHistoricoRouteImport.update({
+  id: '/historico',
+  path: '/historico',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedPainelRoute = AuthenticatedPainelRouteImport.update({
   id: '/painel',
   path: '/painel',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedGerarKindRoute = AuthenticatedGerarKindRouteImport.update({
+  id: '/gerar/$kind',
+  path: '/gerar/$kind',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 
@@ -51,14 +69,20 @@ export interface FileRoutesByFullPath {
   '/entrar': typeof EntrarRoute
   '/planos': typeof PlanosRoute
   '/redefinir-senha': typeof RedefinirSenhaRoute
+  '/empresa': typeof AuthenticatedEmpresaRoute
+  '/historico': typeof AuthenticatedHistoricoRoute
   '/painel': typeof AuthenticatedPainelRoute
+  '/gerar/$kind': typeof AuthenticatedGerarKindRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/entrar': typeof EntrarRoute
   '/planos': typeof PlanosRoute
   '/redefinir-senha': typeof RedefinirSenhaRoute
+  '/empresa': typeof AuthenticatedEmpresaRoute
+  '/historico': typeof AuthenticatedHistoricoRoute
   '/painel': typeof AuthenticatedPainelRoute
+  '/gerar/$kind': typeof AuthenticatedGerarKindRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -67,13 +91,32 @@ export interface FileRoutesById {
   '/entrar': typeof EntrarRoute
   '/planos': typeof PlanosRoute
   '/redefinir-senha': typeof RedefinirSenhaRoute
+  '/_authenticated/empresa': typeof AuthenticatedEmpresaRoute
+  '/_authenticated/historico': typeof AuthenticatedHistoricoRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRoute
+  '/_authenticated/gerar/$kind': typeof AuthenticatedGerarKindRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/entrar' | '/planos' | '/redefinir-senha' | '/painel'
+  fullPaths:
+    | '/'
+    | '/entrar'
+    | '/planos'
+    | '/redefinir-senha'
+    | '/empresa'
+    | '/historico'
+    | '/painel'
+    | '/gerar/$kind'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/entrar' | '/planos' | '/redefinir-senha' | '/painel'
+  to:
+    | '/'
+    | '/entrar'
+    | '/planos'
+    | '/redefinir-senha'
+    | '/empresa'
+    | '/historico'
+    | '/painel'
+    | '/gerar/$kind'
   id:
     | '__root__'
     | '/'
@@ -81,7 +124,10 @@ export interface FileRouteTypes {
     | '/entrar'
     | '/planos'
     | '/redefinir-senha'
+    | '/_authenticated/empresa'
+    | '/_authenticated/historico'
     | '/_authenticated/painel'
+    | '/_authenticated/gerar/$kind'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -129,6 +175,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RedefinirSenhaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/empresa': {
+      id: '/_authenticated/empresa'
+      path: '/empresa'
+      fullPath: '/empresa'
+      preLoaderRoute: typeof AuthenticatedEmpresaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/historico': {
+      id: '/_authenticated/historico'
+      path: '/historico'
+      fullPath: '/historico'
+      preLoaderRoute: typeof AuthenticatedHistoricoRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/painel': {
       id: '/_authenticated/painel'
       path: '/painel'
@@ -136,15 +196,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPainelRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/gerar/$kind': {
+      id: '/_authenticated/gerar/$kind'
+      path: '/gerar/$kind'
+      fullPath: '/gerar/$kind'
+      preLoaderRoute: typeof AuthenticatedGerarKindRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedEmpresaRoute: typeof AuthenticatedEmpresaRoute
+  AuthenticatedHistoricoRoute: typeof AuthenticatedHistoricoRoute
   AuthenticatedPainelRoute: typeof AuthenticatedPainelRoute
+  AuthenticatedGerarKindRoute: typeof AuthenticatedGerarKindRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedEmpresaRoute: AuthenticatedEmpresaRoute,
+  AuthenticatedHistoricoRoute: AuthenticatedHistoricoRoute,
   AuthenticatedPainelRoute: AuthenticatedPainelRoute,
+  AuthenticatedGerarKindRoute: AuthenticatedGerarKindRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
