@@ -1,29 +1,13 @@
 import { createServerFn } from "@tanstack/react-start";
-import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { PLAN_LIMITS } from "@/lib/generators";
-
-const GenerateInput = z.object({
-  kind: z.enum(["diagnostico", "instagram", "produto", "whatsapp", "roteiro", "email"]),
-  input: z.string().trim().min(5, "Descreva seu pedido com pelo menos 5 caracteres.").max(2000),
-  answers: z.string().trim().max(2000).optional().default(""),
-});
-
-const RefineInput = z.object({
-  id: z.string().uuid(),
-  action: z.enum(["melhorar", "encurtar", "persuasivo", "nova-versao"]),
-});
-
-const CompanyInput = z.object({
-  name: z.string().trim().max(120),
-  segment: z.string().trim().max(120),
-  audience: z.string().trim().max(400),
-  products: z.string().trim().max(600),
-  differentials: z.string().trim().max(600),
-  tone: z.string().trim().max(120),
-  city: z.string().trim().max(120),
-  whatsapp: z.string().trim().max(40),
-});
+import {
+  CompanyInput,
+  GenerateInput,
+  IdInput,
+  PlanInput,
+  RefineInput,
+} from "@/lib/prompts.schemas";
 
 export const getDashboard = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -67,7 +51,7 @@ export const getHistory = createServerFn({ method: "GET" })
 
 export const getGeneration = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data: unknown) => z.object({ id: z.string().uuid() }).parse(data))
+  .inputValidator((data: unknown) => IdInput.parse(data))
   .handler(async ({ data, context }) => {
     const { data: row, error } = await context.supabase
       .from("generations")
@@ -103,9 +87,7 @@ export const saveCompanyProfile = createServerFn({ method: "POST" })
 
 export const setPlan = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data: unknown) =>
-    z.object({ plan: z.enum(["gratuito", "profissional"]) }).parse(data),
-  )
+  .inputValidator((data: unknown) => PlanInput.parse(data))
   .handler(async ({ data, context }) => {
     const { error } = await context.supabase
       .from("profiles")
